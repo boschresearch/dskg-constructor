@@ -1,0 +1,613 @@
+@prefix : <http://www.nuscenes.org/nuScenes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.nuscenes.org/nuScenes/> .
+
+<http://www.nuscenes.org/nuScenes/> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.nuscenes.org/nuScenes/isSnapshotOf
+:isSnapshotOf rdf:type owl:ObjectProperty ;
+              rdfs:domain :ParticipantSnapshot ;
+              rdfs:range :Participant ;
+              rdfs:label "isSnapshotOf"@en .
+
+
+###  http://www.nuscenes.org/nuScenes/hasCalibration
+:hasCalibration rdf:type owl:ObjectProperty ;
+                rdfs:domain :Sensor ;
+                rdfs:range :Calibration .
+
+
+###  http://www.nuscenes.org/nuScenes/hasData
+:hasData rdf:type owl:ObjectProperty ;
+         rdfs:domain :Scene ;
+         rdfs:range :Data .
+
+
+###  http://www.nuscenes.org/nuScenes/hasEgoVehicle
+:hasEgoVehicle rdf:type owl:ObjectProperty ;
+               rdfs:domain :Trip ;
+               rdfs:range :EgoVehicle .
+
+
+###  http://www.nuscenes.org/nuScenes/hasLocation
+:hasLocation rdf:type owl:ObjectProperty ;
+             rdfs:domain :Trip ;
+             rdfs:range :Location .
+
+
+###  http://www.nuscenes.org/nuScenes/hasObservation
+:hasObservation rdf:type owl:ObjectProperty ;
+                rdfs:domain :Calibration ;
+                rdfs:range :Data .
+
+
+###  http://www.nuscenes.org/nuScenes/hasParticipant
+:hasParticipant rdf:type owl:ObjectProperty ;
+                rdfs:domain :Scene ;
+                rdfs:range :ParticipantSnapshot .
+
+
+###  http://www.nuscenes.org/nuScenes/hasScene
+:hasScene rdf:type owl:ObjectProperty ;
+          rdfs:domain :Sequence ;
+          rdfs:range :Scene .
+
+
+###  http://www.nuscenes.org/nuScenes/hasSequence
+:hasSequence rdf:type owl:ObjectProperty ;
+             rdfs:domain :Trip ;
+             rdfs:range :Sequence .
+
+
+###  http://www.nuscenes.org/nuScenes/hasState
+:hasState rdf:type owl:ObjectProperty ;
+          rdfs:domain :ParticipantSnapshot ;
+          rdfs:range :State .
+
+
+###  http://www.nuscenes.org/nuScenes/hasTrip
+:hasTrip rdf:type owl:ObjectProperty ;
+         rdfs:domain :Map ;
+         rdfs:range :Trip .
+
+
+###  http://www.w3.org/2002/07/owl#topObjectProperty
+owl:topObjectProperty rdfs:domain :Map .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.nuscenes.org/nuScenes/hasCameraIntrinsic
+:hasCameraIntrinsic rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Calibration ;
+                    rdfs:range xsd:string ;
+                    rdfs:comment """Intrinsic camera calibration. Empty for sensors that are not cameras.
+<float> [3, 3]""" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasChannel
+:hasChannel rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain :Sensor ;
+            rdfs:range xsd:string ;
+            rdfs:comment """Sensor channel name.
+CAM_FRONT
+CAM_BACK
+CAM_BACK_LEFT
+CAM_FRONT_LEFT
+CAM_FRONT_RIGHT
+CAM_BACK_RIGHT
+LIDAR_TOP
+RADAR_FRONT
+RADAR_FRONT_RIGHT
+RADAR_FRONT_LEFT
+RADAR_BACK_LEFT
+RADAR_BACK_RIGHT""" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasDate
+:hasDate rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Trip ;
+         rdfs:range xsd:dateTime ;
+         rdfs:comment "Date when the data was captured, e.g. 2018-07-24" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Sequence ;
+                rdfs:range xsd:string ;
+                rdfs:comment "Longer description of the scene content." .
+
+
+###  http://www.nuscenes.org/nuScenes/hasFileformat
+:hasFileformat rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Data ;
+               rdfs:range xsd:string .
+
+
+###  http://www.nuscenes.org/nuScenes/hasFilename
+:hasFilename rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Data ,
+                         :Map ;
+             rdfs:range xsd:string ;
+             rdfs:comment "Relative path to the file" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasFirstScene
+:hasFirstScene rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Sequence ;
+               rdfs:range xsd:token .
+
+
+###  http://www.nuscenes.org/nuScenes/hasLastScene
+:hasLastScene rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Sequence ;
+              rdfs:range xsd:token .
+
+
+###  http://www.nuscenes.org/nuScenes/hasLogfile
+:hasLogfile rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Trip ;
+            rdfs:range xsd:string ;
+            rdfs:comment """Log fine name (excluding path and sensor_modality)
+E.g. 
+\"n015-2018-07-24-11-22-45+0800\"
+vehicleID-year-month-day-hour-minute-secod-time_offset?""" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasModality
+:hasModality rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Sensor ;
+             rdfs:range xsd:string ;
+             rdfs:comment "{camera, lidar, radar} -- Sensor modality. Supports category(ies) in brackets." .
+
+
+###  http://www.nuscenes.org/nuScenes/hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Sequence ;
+         rdfs:range xsd:string .
+
+
+###  http://www.nuscenes.org/nuScenes/hasNbrScenes
+:hasNbrScenes rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Sequence ;
+              rdfs:range xsd:integer .
+
+
+###  http://www.nuscenes.org/nuScenes/hasNextScene
+:hasNextScene rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Scene ;
+              rdfs:range xsd:token .
+
+
+###  http://www.nuscenes.org/nuScenes/hasNumLidarPts
+:hasNumLidarPts rdf:type owl:DatatypeProperty ;
+                rdfs:domain :ParticipantSnapshot ;
+                rdfs:range xsd:integer ;
+                rdfs:comment "Number of lidar points in this box. Points are counted during the lidar sweep identified with this sample." .
+
+
+###  http://www.nuscenes.org/nuScenes/hasNumRadarPts
+:hasNumRadarPts rdf:type owl:DatatypeProperty ;
+                rdfs:domain :ParticipantSnapshot ;
+                rdfs:range xsd:integer ;
+                rdfs:comment "Number of radar points in this box. Points are counted during the radar sweep identified with this sample. This number is summed across all radar sensors without any invalid point filtering." .
+
+
+###  http://www.nuscenes.org/nuScenes/hasPixelHeight
+:hasPixelHeight rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Data ;
+                rdfs:range xsd:integer ;
+                rdfs:comment "If the sample data is an image, this is the image height in pixels." .
+
+
+###  http://www.nuscenes.org/nuScenes/hasPixelWidth
+:hasPixelWidth rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Data ;
+               rdfs:range xsd:integer ;
+               rdfs:comment "If the sample data is an image, this is the image width in pixels." .
+
+
+###  http://www.nuscenes.org/nuScenes/hasPreviousScene
+:hasPreviousScene rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Scene ;
+                  rdfs:range xsd:token .
+
+
+###  http://www.nuscenes.org/nuScenes/hasRotation
+:hasRotation rdf:type owl:DatatypeProperty ;
+             rdfs:domain :ParticipantSnapshot ,
+                         :Calibration ,
+                         :Data ;
+             rdfs:range xsd:string ;
+             rdfs:comment """Coordinate system orientation as quaternion: w, x, y, z.
+<float> [4]""" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasSize
+:hasSize rdf:type owl:DatatypeProperty ;
+         rdfs:domain :ParticipantSnapshot ;
+         rdfs:range xsd:string ;
+         rdfs:comment """Bounding box size in meters as width, length, height.
+<float> [3]""" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasTimestamp
+:hasTimestamp rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Data ,
+                          :Scene ;
+              rdfs:range xsd:integer .
+
+
+###  http://www.nuscenes.org/nuScenes/hasTranslation
+:hasTranslation rdf:type owl:DatatypeProperty ;
+                rdfs:domain :ParticipantSnapshot ,
+                            :Calibration ,
+                            :Data ;
+                rdfs:range xsd:string ;
+                rdfs:comment """Coordinate system origin in meters: x, y, z.
+<float> [3]""" .
+
+
+###  http://www.nuscenes.org/nuScenes/hasVisibility
+:hasVisibility rdf:type owl:DatatypeProperty ;
+               rdfs:domain :ParticipantSnapshot ;
+               rdfs:range xsd:int ;
+               rdfs:comment """Value: 1
+\"visibility of whole object is between 0 and 40%\",
+\"level\": \"v0-40\"
+
+Value: 2
+\"description\": \"visibility of whole object is between 40 and 60%\",
+\"level\": \"v40-60\"
+
+Value: 3
+\"description\": \"visibility of whole object is between 60 and 80%\",
+\"level\": \"v60-80\"
+
+Value: 4
+\"description\": \"visibility of whole object is between 80 and 100%\",
+\"level\": \"v80-100\"""" .
+
+
+###  http://www.nuscenes.org/nuScenes/isKeyframe
+:isKeyframe rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Data ;
+            rdfs:range xsd:boolean ;
+            rdfs:comment "True if sample_data is part of key_frame, else False." .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.nuscenes.org/nuScenes/ParticipantSnapshot
+:ParticipantSnapshot rdf:type owl:Class ;
+       rdfs:label "ParticipantSnapshot"@en .
+
+
+###  http://www.nuscenes.org/nuScenes/Adult
+:Adult rdf:type owl:Class ;
+       rdfs:subClassOf :Human .
+
+
+###  http://www.nuscenes.org/nuScenes/Animal
+:Animal rdf:type owl:Class ;
+        rdfs:subClassOf :Participant ;
+        rdfs:comment "All animals, e.g. cats, rats, dogs, deer, birds." .
+
+
+###  http://www.nuscenes.org/nuScenes/Background
+:Background rdf:type owl:Class ;
+            rdfs:subClassOf :Participant ;
+            rdfs:comment """Background of the scene from Lidar segmentation.
+The nuScenes-lidarseg contains both foreground classes (pedestrians, vehicles, cyclists, etc.) and background classes (driveable surface, nature, buildings, etc.).""" .
+
+
+###  http://www.nuscenes.org/nuScenes/Barrier
+:Barrier rdf:type owl:Class ;
+         rdfs:subClassOf :MovableObject ;
+         rdfs:comment "Temporary road barrier placed in the scene in order to redirect traffic. Commonly used at construction sites. This includes concrete barrier, metal barrier and water barrier. No fences." .
+
+
+###  http://www.nuscenes.org/nuScenes/Bicycle
+:Bicycle rdf:type owl:Class ;
+         rdfs:subClassOf :Vehicle ;
+         rdfs:comment "Human or electric powered 2-wheeled vehicle designed to travel at lower speeds either on road surface, sidewalks or bike paths." .
+
+
+###  http://www.nuscenes.org/nuScenes/BicycleRack
+:BicycleRack rdf:type owl:Class ;
+             rdfs:subClassOf :StaticObject .
+
+
+###  http://www.nuscenes.org/nuScenes/BusBendy
+:BusBendy rdf:type owl:Class ;
+          rdfs:subClassOf :Vehicle ;
+          rdfs:comment "Bendy bus subcategory. Annotate each section of the bendy bus individually" .
+
+
+###  http://www.nuscenes.org/nuScenes/BusRigid
+:BusRigid rdf:type owl:Class ;
+          rdfs:subClassOf :Vehicle .
+
+
+###  http://www.nuscenes.org/nuScenes/Calibration
+:Calibration rdf:type owl:Class ;
+             rdfs:comment "Definition of a particular sensor (lidar/radar/camera) as calibrated on a particular vehicle. All extrinsic parameters are given with respect to the ego vehicle body frame. All camera images come undistorted and rectified." .
+
+
+###  http://www.nuscenes.org/nuScenes/Car
+:Car rdf:type owl:Class ;
+     rdfs:subClassOf :Vehicle ;
+     rdfs:comment "Vehicle designed primarily for personal use, e.g. sedans, hatch-backs, wagons, vans, mini-vans, SUVs and jeeps. If the vehicle is designed to carry more than 10 people use vehicle.bus. If it is primarily designed to haul cargo use vehicle.truck." .
+
+
+###  http://www.nuscenes.org/nuScenes/Child
+:Child rdf:type owl:Class ;
+       rdfs:subClassOf :Human .
+
+
+###  http://www.nuscenes.org/nuScenes/ConstructionVehicle
+:ConstructionVehicle rdf:type owl:Class ;
+                     rdfs:subClassOf :Vehicle ;
+                     rdfs:comment "Vehicles primarily designed for construction. Typically very slow moving or stationary. Cranes and extremities of construction vehicles are only included in annotations if they interfere with traffic. Trucks used to haul rocks or building materials are considered vehicle.truck rather than construction vehicles." .
+
+
+###  http://www.nuscenes.org/nuScenes/ConstructionWorker
+:ConstructionWorker rdf:type owl:Class ;
+                    rdfs:subClassOf :Human .
+
+
+###  http://www.nuscenes.org/nuScenes/Data
+:Data rdf:type owl:Class ;
+      rdfs:comment "A sensor data e.g. image, point cloud or radar return. For Data with is_key_frame=True, the time-stamps should be very close to the Scene it points to. For non key-frames the sample_data points to the sample that follows closest in time." .
+
+
+###  http://www.nuscenes.org/nuScenes/Debris
+:Debris rdf:type owl:Class ;
+        rdfs:subClassOf :MovableObject ;
+        rdfs:comment "Movable object that is left on the driveable surface that is too large to be driven over safely, e.g tree branch, full trash bag etc." .
+
+
+###  http://www.nuscenes.org/nuScenes/EgoVehicle
+:EgoVehicle rdf:type owl:Class .
+
+
+###  http://www.nuscenes.org/nuScenes/EmergencyAmbulance
+:EmergencyAmbulance rdf:type owl:Class ;
+                    rdfs:subClassOf :Vehicle ;
+                    rdfs:comment "All types of ambulances." .
+
+
+###  http://www.nuscenes.org/nuScenes/EmergencyPolice
+:EmergencyPolice rdf:type owl:Class ;
+                 rdfs:subClassOf :Vehicle ;
+                 rdfs:comment "All types of police vehicles including police bicycles and motorcycles." .
+
+
+###  http://www.nuscenes.org/nuScenes/FlatDrivableSurface
+:FlatDrivableSurface rdf:type owl:Class ;
+                     rdfs:subClassOf :Background ;
+                     rdfs:comment "All paved or unpaved surfaces that a car can drive on with no concern of traffic rules." .
+
+
+###  http://www.nuscenes.org/nuScenes/FlatOther
+:FlatOther rdf:type owl:Class ;
+           rdfs:subClassOf :Background ;
+           rdfs:comment "All other forms of horizontal ground-level structures that do not belong to any of driveable_surface, curb, sidewalk and terrain. Includes elevated parts of traffic islands, delimiters, rail tracks, stairs with at most 3 steps and larger bodies of water (lakes, rivers)." .
+
+
+###  http://www.nuscenes.org/nuScenes/FlatSidewalk
+:FlatSidewalk rdf:type owl:Class ;
+              rdfs:subClassOf :Background ;
+              rdfs:comment "Sidewalk, pedestrian walkways, bike paths, etc. Part of the ground designated for pedestrians or cyclists. Sidewalks do not have to be next to a road." .
+
+
+###  http://www.nuscenes.org/nuScenes/FlatTerrain
+:FlatTerrain rdf:type owl:Class ;
+             rdfs:subClassOf :Background ;
+             rdfs:comment "Natural horizontal surfaces such as ground level horizontal vegetation (< 20 cm tall), grass, rolling hills, soil, sand and gravel." .
+
+
+###  http://www.nuscenes.org/nuScenes/Human
+:Human rdf:type owl:Class ;
+       rdfs:subClassOf :Participant .
+
+
+###  http://www.nuscenes.org/nuScenes/Location
+:Location rdf:type owl:Class .
+
+
+###  http://www.nuscenes.org/nuScenes/Map
+:Map rdf:type owl:Class ;
+     rdfs:comment "Map data that is stored as binary semantic masks from a top-down view." .
+
+
+###  http://www.nuscenes.org/nuScenes/Motorcycle
+:Motorcycle rdf:type owl:Class ;
+            rdfs:subClassOf :Vehicle ;
+            rdfs:comment "Gasoline or electric powered 2-wheeled vehicle designed to move rapidly (at the speed of standard cars) on the road surface. This category includes all motorcycles, vespas and scooters." .
+
+
+###  http://www.nuscenes.org/nuScenes/MovableObject
+:MovableObject rdf:type owl:Class ;
+               rdfs:subClassOf :Participant .
+
+
+###  http://www.nuscenes.org/nuScenes/Noise
+:Noise rdf:type owl:Class ;
+       rdfs:subClassOf :Background ;
+       rdfs:comment "Any lidar return that does not correspond to a physical object, such as dust, vapor, noise, fog, raindrops, smoke and reflections." .
+
+
+###  http://www.nuscenes.org/nuScenes/Participant
+:Participant rdf:type owl:Class ;
+             rdfs:comment "A bounding box defining the position of an object seen in a scene. All location data is given with respect to the global coordinate system." .
+
+
+###  http://www.nuscenes.org/nuScenes/PersonalMobility
+:PersonalMobility rdf:type owl:Class ;
+                  rdfs:subClassOf :Human ;
+                  rdfs:comment "A small electric or self-propelled vehicle, e.g. skateboard, segway, or scooters, on which the person typically travels in a upright position. Driver and (if applicable) rider should be included in the bounding box along with the vehicle." .
+
+
+###  http://www.nuscenes.org/nuScenes/PoliceOfficer
+:PoliceOfficer rdf:type owl:Class ;
+               rdfs:subClassOf :Human .
+
+
+###  http://www.nuscenes.org/nuScenes/PushablePullable
+:PushablePullable rdf:type owl:Class ;
+                  rdfs:subClassOf :MovableObject ;
+                  rdfs:comment "Objects that a pedestrian may push or pull. For example dolleys, wheel barrows, garbage-bins, or shopping carts." .
+
+
+###  http://www.nuscenes.org/nuScenes/Scene
+:Scene rdf:type owl:Class ;
+       rdfs:comment "A scene is an annotated keyframe at 2 Hz. The data is collected at (approximately) the same timestamp as part of a single LIDAR sweep." .
+
+
+###  http://www.nuscenes.org/nuScenes/Sensor
+:Sensor rdf:type owl:Class .
+
+
+###  http://www.nuscenes.org/nuScenes/Sequence
+:Sequence rdf:type owl:Class ;
+          rdfs:comment "A Sequence is a 20s long sequence of consecutive frames extracted from a log. Multiple scenes can come from the same log. Note that object identities (instance tokens) are not preserved across scenes." .
+
+
+###  http://www.nuscenes.org/nuScenes/State
+:State rdf:type owl:Class .
+
+
+###  http://www.nuscenes.org/nuScenes/StaticManmade
+:StaticManmade rdf:type owl:Class ;
+               rdfs:subClassOf :Background ;
+               rdfs:comment "Includes man-made structures but not limited to: buildings, walls, guard rails, fences, poles, drainages, hydrants, flags, banners, street signs, electric circuit boxes, traffic lights, parking meters and stairs with more than 3 steps." .
+
+
+###  http://www.nuscenes.org/nuScenes/StaticObject
+:StaticObject rdf:type owl:Class ;
+              rdfs:subClassOf :Participant .
+
+
+###  http://www.nuscenes.org/nuScenes/StaticOther
+:StaticOther rdf:type owl:Class ;
+             rdfs:subClassOf :Background ;
+             rdfs:comment "Points in the background that are not distinguishable. Or objects that do not match any of the above labels." .
+
+
+###  http://www.nuscenes.org/nuScenes/StaticVegetation
+:StaticVegetation rdf:type owl:Class ;
+                  rdfs:subClassOf :Background ;
+                  rdfs:comment "Any vegetation in the frame that is higher than the ground, including bushes, plants, potted plants, trees, etc. Only tall grass (> 20cm) is part of this, ground level grass is part of flat.terrain." .
+
+
+###  http://www.nuscenes.org/nuScenes/Stroller
+:Stroller rdf:type owl:Class ;
+          rdfs:subClassOf :Human ;
+          rdfs:comment "Strollers. If a person is in the stroller, include in the annotation." .
+
+
+###  http://www.nuscenes.org/nuScenes/TrafficCone
+:TrafficCone rdf:type owl:Class ;
+             rdfs:subClassOf :MovableObject .
+
+
+###  http://www.nuscenes.org/nuScenes/Trailer
+:Trailer rdf:type owl:Class ;
+         rdfs:subClassOf :Vehicle ;
+         rdfs:comment "Any vehicle trailer, both for trucks, cars and bikes." .
+
+
+###  http://www.nuscenes.org/nuScenes/Trip
+:Trip rdf:type owl:Class .
+
+
+###  http://www.nuscenes.org/nuScenes/Truck
+:Truck rdf:type owl:Class ;
+       rdfs:subClassOf :Vehicle ;
+       rdfs:comment "Vehicles primarily designed to haul cargo including pick-ups, lorrys, trucks and semi-tractors. Trailers hauled after a semi-tractor should be labeled as vehicle.trailer" .
+
+
+###  http://www.nuscenes.org/nuScenes/Vehicle
+:Vehicle rdf:type owl:Class ;
+         rdfs:subClassOf :Participant .
+
+
+###  http://www.nuscenes.org/nuScenes/VehicleEgo
+:VehicleEgo rdf:type owl:Class ;
+            rdfs:subClassOf :Background ;
+            rdfs:comment "The vehicle on which the cameras, radar and lidar are mounted, that is sometimes visible at the bottom of the image." .
+
+
+###  http://www.nuscenes.org/nuScenes/Wheelchair
+:Wheelchair rdf:type owl:Class ;
+            rdfs:subClassOf :Human ;
+            rdfs:comment "Wheelchairs. If a person is in the wheelchair, include in the annotation." .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.nuscenes.org/nuScenes/CycleWithRider
+:CycleWithRider rdf:type owl:NamedIndividual ,
+                         :State ;
+                rdfs:comment "There is a rider on the bicycle or motorcycle." .
+
+
+###  http://www.nuscenes.org/nuScenes/CycleWithoutRider
+:CycleWithoutRider rdf:type owl:NamedIndividual ,
+                            :State ;
+                   rdfs:comment "There is NO rider on the bicycle or motorcycle." .
+
+
+###  http://www.nuscenes.org/nuScenes/PedestrianMoving
+:PedestrianMoving rdf:type owl:NamedIndividual ,
+                           :State ;
+                  rdfs:comment "The human is moving." .
+
+
+###  http://www.nuscenes.org/nuScenes/PedestrianSittingLyingDown
+:PedestrianSittingLyingDown rdf:type owl:NamedIndividual ,
+                                     :State ;
+                            rdfs:comment "The human is sitting or lying down." .
+
+
+###  http://www.nuscenes.org/nuScenes/PedestrianStanding
+:PedestrianStanding rdf:type owl:NamedIndividual ,
+                             :State ;
+                    rdfs:comment "The human is standing." .
+
+
+###  http://www.nuscenes.org/nuScenes/VehicleMoving
+:VehicleMoving rdf:type owl:NamedIndividual ,
+                        :State ;
+               rdfs:comment "Vehicle is moving." .
+
+
+###  http://www.nuscenes.org/nuScenes/VehicleParked
+:VehicleParked rdf:type owl:NamedIndividual ,
+                        :State ;
+               rdfs:comment "Vehicle is stationary (usually for longer duration) with no immediate intent to move." .
+
+
+###  http://www.nuscenes.org/nuScenes/VehicleStopped
+:VehicleStopped rdf:type owl:NamedIndividual ,
+                         :State ;
+                rdfs:comment "Vehicle, with a driver/rider in/on it, is currently stationary but has an intent to move." .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
